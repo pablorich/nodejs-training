@@ -1,14 +1,14 @@
 import http from 'http';
-import express from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import logging from './config/logging';
 import config from './config/config';
 import sampleRoutes from './routes/sample';
 
 const NAMESPACE = 'Server';
-const router = express();
+const router: Application = express();
 
 /** Logging request */
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
     logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`);
     res.on('finish', () => {
         logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`);
@@ -21,7 +21,7 @@ router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
 /** API Rules */
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-Width, Content-Type, Accept, Authorization');
 
@@ -36,7 +36,7 @@ router.use((req, res, next) => {
 router.use('/sample', sampleRoutes);
 
 /** Error handling */
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
     const error = new Error('not found');
 
     return res.status(404).json({
