@@ -13,6 +13,7 @@ router.use((req, res, next) => {
     res.on('finish', () => {
         logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`);
     });
+    next();
 });
 
 /** Parse req */
@@ -28,6 +29,7 @@ router.use((req, res, next) => {
         res.header('Access-Control-Allow-Header', 'GET PATCH DELETE POST PUT');
         return res.status(200).json({});
     }
+    next();
 });
 
 /** Routes */
@@ -39,6 +41,7 @@ router.use((req, res, next) => {
     return res.status(404).json({
         message: error.message
     });
+    next();
 });
 
 /** Create Server */
