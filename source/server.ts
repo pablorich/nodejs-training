@@ -1,6 +1,5 @@
 import http from 'http';
 import express from 'express';
-import bodyParser from 'body-parser';
 import logging from './config/logging';
 import config from './config/config';
 import sampleRoutes from './routes/sample';
@@ -18,8 +17,8 @@ router.use((req, res, next) => {
 });
 
 /** Parse req */
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json());
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json());
 
 /** API Rules */
 router.use((req, res, next) => {
