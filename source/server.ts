@@ -36,17 +36,16 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 router.use('/sample', sampleRoutes);
 
 /** Error handling */
-router.use((req: Request, res: Response, next: NextFunction) => {
+router.use((req: Request, res: Response, _next: NextFunction) => {
     const error = new Error('not found');
 
     return res.status(404).json({
         message: error.message
     });
-    next();
 });
 
 /** Create Server */
 const httpServer = http.createServer(router);
 httpServer.listen(config.server.port, () => {
-    logging.info(NAMESPACE, `Server running on ${config.server.hostname}:${config.server.port}`);
+    logging.info(NAMESPACE, `Server is running on ${config.server.hostname}:${config.server.port}`);
 });
